@@ -6,7 +6,7 @@
 
 magwene.inversion<-function(x, no.sample = NULL, 
 	node.width=10, vlb = 1, vertex.cols = 'black',
-	edge.mult=10, layout=layout.kamada.kawai, suppress=FALSE, 
+	edge.mult=10, layout='layout.kamada.kawai', suppress=FALSE, 
 	curve=FALSE, Out = FALSE){
 	
 	# function takes x = data frame of trait values
@@ -140,7 +140,7 @@ magwene.inversion<-function(x, no.sample = NULL,
 	# PLOT THE RESULTING GRAPH FROM THE MATRIX
 	#--------------------------------------------
 	g<-graph.adjacency(eed.graph, mode="undirected")
-	g$layout<-layout
+	E(g)$layout<-layout
 
 		
 	# GET LABELS ONTO THE EDGES, BUT ONLY WHERE THERE ARE EDGES from tests
