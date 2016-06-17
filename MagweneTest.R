@@ -60,6 +60,8 @@ y.data <- data.frame(
 				BC=c(1.78e-02,1.05e-06,1.37e-05,7.18e-03,0.00e+00,0.00e+00,0.00e+00
               ,4.48e-03,2.10e-06,0.00e+00)
 			)
+y.data.scale<-scale(y.data)
+
 # partial correlation
 pcor(y.data)$estimate
 magwene.inversion(y.data, no.sample=10, Out = TRUE)$PartialCorr
@@ -71,3 +73,7 @@ magwene.inversion(y.data, no.sample=10, Out = TRUE)$EdgeSig
 # p-value
 pcor(y.data)$p.value
 magwene.inversion(y.data, no.sample=10, Out = TRUE)$EdgeGraph
+
+# estimate of partial is independent of raw or scaled cov/cor 
+pcor(y.data)$estimate
+pcor(y.data.scale)$estimate
