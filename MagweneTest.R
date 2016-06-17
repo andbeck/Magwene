@@ -1,8 +1,6 @@
-# magwene test
+# magwene test on Magwene Fowl Matrix.
 library(ppcor)
 library(igraph)
-
-source("Magwene2001.R")
 
 FowlCors<-c(1,NA,NA,NA,NA,NA,
 			0.583,1,NA,NA,NA,NA,
@@ -17,10 +15,19 @@ Fowl<-FowlPrep
 
 # Step 1 - inverse correlation
 invcm<-solve(Fowl)
-
 pcor<--cov2cor(invcm)
 
+# checks against Magwene 2001
 invcm
 pcor
 
-magwene.inversion(Fowl)
+# magwene fowl example with graphing
+source("Magwene2001.R")
+
+# 276 chickens
+# alternative layouts see ?layout_
+# play with edge multiplier to see different edges
+# solid = positive, dashed = negative
+magwene.inversion(Fowl, no.sample = 276,
+	edge.mult = 30, layout = layout.kamada.kawai,
+	Out =TRUE)
