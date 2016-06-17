@@ -23,18 +23,33 @@ pcorx
 
 # magwene fowl example with graphing
 source("Magwene2001.R")
+source("Magwene2001_Mistake.R")
+
+# ppcor method
+ppcorMethod<-function(covmat){
+	icvx <- solve(covmat)
+    pcor <- -cov2cor(icvx)
+    diag(pcor) <- 1
+    return(pcor)
+}
 
 # 276 chickens
 # alternative layouts see ?layout_
 # play with edge multiplier to see different edges
 # solid = positive, dashed = negative
-magwene.inversion(Fowl, no.sample = 276,
+par(mfrow=c(1,2))
+mag_wrong<-magwene.inversion.wrong(Fowl, no.sample = 276,
 	edge.mult = 30, layout = layout_with_kk,
 	Out =TRUE)
 
-# magwene.inversion(Fowl, no.sample = 276,
-	# edge.mult = 30, layout = 'layout.circle',
-	# Out =TRUE)
+mag_right<-magwene.inversion(Fowl, no.sample = 276,
+	edge.mult = 30, layout = layout_with_kk,
+	Out =TRUE)
+
+#COMPARE OLD wrong, new and ppcor methods
+mag_wrong$PartialCorr
+mag_right$PartialCorr
+ppcorMethod(Fowl)
 
 
 # PCOR package example
@@ -46,5 +61,13 @@ y.data <- data.frame(
               ,4.48e-03,2.10e-06,0.00e+00)
 			)
 # partial correlation
-pcor(y.data) 
-magwene.inversion(y.data, no.sample=10, Out = TRUE)
+pcor(y.data)$estimate
+magwene.inversion(y.data, no.sample=10, Out = TRUE)$PartialCorr
+
+# stat/edge test
+pcor(y.data)$statistic
+magwene.inversion(y.data, no.sample=10, Out = TRUE)$EdgeSig
+
+# p-value
+pcor(y.data)$p.value
+magwene.inversion(y.data, no.sample=10, Out = TRUE)$EdgeGraph

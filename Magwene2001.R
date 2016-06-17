@@ -180,7 +180,7 @@ magwene.inversion<-function(x, no.sample = NULL,
 		edge.label.cex = 0.8,
 		edge.label.family ="Arial")
 		
-	out<-list(ConditionalCorr = scaleinvcc, EdgeSig = eed.sig.mat, 
+	out<-list(PartialCorr = scaleinvcc, EdgeSig = eed.sig.mat, 
 		EdgeStrength = eed.str.mat, EdgeGraph = eed.graph.qual, 
 		Connectivity = round(sum(eed.graph)/dim(eed.graph)[1]^2, 3))	
 		
