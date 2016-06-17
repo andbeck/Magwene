@@ -15,11 +15,11 @@ Fowl<-FowlPrep
 
 # Step 1 - inverse correlation
 invcm<-solve(Fowl)
-pcor<--cov2cor(invcm)
+pcorx<--cov2cor(invcm)
 
 # checks against Magwene 2001
 invcm
-pcor
+pcorx
 
 # magwene fowl example with graphing
 source("Magwene2001.R")
@@ -29,5 +29,22 @@ source("Magwene2001.R")
 # play with edge multiplier to see different edges
 # solid = positive, dashed = negative
 magwene.inversion(Fowl, no.sample = 276,
-	edge.mult = 30, layout = layout.kamada.kawai,
+	edge.mult = 30, layout = 'layout.kamada.kawai',
 	Out =TRUE)
+
+# magwene.inversion(Fowl, no.sample = 276,
+	# edge.mult = 30, layout = 'layout.circle',
+	# Out =TRUE)
+
+
+# PCOR package example
+y.data <- data.frame(
+				hl=c(7,15,19,15,21,22,57,15,20,18),
+				disp=c(0.000,0.964,0.000,0.000,0.921,0.000,0.000,1.006,0.000,1.011),
+				deg=c(9,2,3,4,1,3,1,3,6,1),
+				BC=c(1.78e-02,1.05e-06,1.37e-05,7.18e-03,0.00e+00,0.00e+00,0.00e+00
+              ,4.48e-03,2.10e-06,0.00e+00)
+			)
+# partial correlation
+pcor(y.data) 
+magwene.inversion(y.data, no.sample=10, Out = TRUE)
