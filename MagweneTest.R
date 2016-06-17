@@ -29,7 +29,7 @@ source("Magwene2001.R")
 # play with edge multiplier to see different edges
 # solid = positive, dashed = negative
 magwene.inversion(Fowl, no.sample = 276,
-	edge.mult = 30, layout = 'layout.kamada.kawai',
+	edge.mult = 30, layout = layout_with_kk,
 	Out =TRUE)
 
 # magwene.inversion(Fowl, no.sample = 276,

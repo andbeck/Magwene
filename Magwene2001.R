@@ -5,8 +5,9 @@
 # UPDATED 17.6.2016 to fix error in pcor and make graphing work
 
 magwene.inversion<-function(x, no.sample = NULL, 
+	layout = layout_in_circle, # or layout_nicely
 	node.width=10, vlb = 1, vertex.cols = 'black',
-	edge.mult=10, layout='layout.kamada.kawai', suppress=FALSE, 
+	edge.mult=10, suppress=FALSE, 
 	curve=FALSE, Out = FALSE){
 	
 	# function takes x = data frame of trait values
@@ -140,7 +141,8 @@ magwene.inversion<-function(x, no.sample = NULL,
 	# PLOT THE RESULTING GRAPH FROM THE MATRIX
 	#--------------------------------------------
 	g<-graph.adjacency(eed.graph, mode="undirected")
-	E(g)$layout<-layout
+	#E(g)$layout<-layout.circle(g)
+	#coords<-layout_in_circle(g)
 
 		
 	# GET LABELS ONTO THE EDGES, BUT ONLY WHERE THERE ARE EDGES from tests
@@ -164,7 +166,7 @@ magwene.inversion<-function(x, no.sample = NULL,
 	g<-delete.edges(g, which(labels==1))
 
 	# make the plot
-	plot(g,
+	plot(g, layout = layout,
 		vertex.color = rgb(0,0,1, alpha=0.3),
 		vertex.shape="circle",
 		vertex.frame.color=NA,
