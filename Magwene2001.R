@@ -2,9 +2,7 @@
 # May 19 2009
 # Upated 21 Dec 2013
 # UPDATED 25.4.2016
-
-# Major error?  Reversed correlation sign by not using -cov2cor(invmatrix) ????
-# see ppcor package and pcor() function.
+# UPDATED 17.6.2016 to fix error in pcor and make graphing work
 
 magwene.inversion<-function(x, no.sample = NULL, 
 	node.width=10, vlb = 1, vertex.cols = 'black',
