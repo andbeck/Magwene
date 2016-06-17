@@ -28,16 +28,18 @@ magwene.inversion<-function(x,node.width=10, edge.mult=6, vertex.cols = 'black',
 		cc<-cov(dd)
 		subjects<-dim(dd)[1]
 		}
+	else
 	if(is.matrix(x)&all(diag(x)!=1)){
 		cc<-cov2cor(x)
 		}	
+	else
 	if(is.matrix(x)&all(diag(x)==1)){
 		cc<-x
 		}
 	
 	dimension<-dim(cc)
 	
-	cat('This is your starting correlation matrix')
+	cat('This is your starting correlation matrix','\n')
 	print(cc)
 
 	

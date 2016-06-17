@@ -1,5 +1,6 @@
 # magwene test
 library(ppcor)
+library(igraph)
 
 source("Magwene2001.R")
 

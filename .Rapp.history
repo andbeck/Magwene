@@ -1,0 +1,93 @@
+getwd()
+library(ppcor)#
+#
+source("Magwene2001.R")
+library(igraph)
+FowlCors<-c(1,NA,NA,NA,NA,NA,#
+			0.583,1,NA,NA,NA,NA,#
+			0.621,0.584,1,NA,NA,NA,#
+			0.603,0.526,0.937,1,NA,NA,#
+			0.569,0.515,0.877,0.878,1,NA,#
+			0.602,0.548,0.874,0.894,0.926,1)#
+FowlPrep<-matrix(FowlCors, nrow = 6, ncol = 6, byrow=TRUE)#
+FowlPrep#
+FowlPrep[upper.tri(FowlPrep)]<-t(FowlPrep)[upper.tri(t(FowlPrep))]#
+Fowl<-FowlPrep#
+#
+# Step 1 - inverse correlation#
+invcm<-solve(Fowl)#
+#
+pcor<--cov2cor(invcm)#
+#
+invcm#
+pcor
+magwene.inversion(Fowl)
+library(ppcor)#
+library(igraph)#
+#
+source("Magwene2001.R")
+library(ppcor)#
+library(igraph)#
+#
+source("Magwene2001.R")#
+#
+FowlCors<-c(1,NA,NA,NA,NA,NA,#
+			0.583,1,NA,NA,NA,NA,#
+			0.621,0.584,1,NA,NA,NA,#
+			0.603,0.526,0.937,1,NA,NA,#
+			0.569,0.515,0.877,0.878,1,NA,#
+			0.602,0.548,0.874,0.894,0.926,1)#
+FowlPrep<-matrix(FowlCors, nrow = 6, ncol = 6, byrow=TRUE)#
+FowlPrep#
+FowlPrep[upper.tri(FowlPrep)]<-t(FowlPrep)[upper.tri(t(FowlPrep))]#
+Fowl<-FowlPrep#
+#
+# Step 1 - inverse correlation#
+invcm<-solve(Fowl)#
+#
+pcor<--cov2cor(invcm)#
+#
+invcm#
+pcor#
+#
+magwene.inversion(Fowl)
+# Magwene Methods#
+# May 19 2009#
+# Upated 21 Dec 2013#
+# UPDATED 25.4.2016#
+#
+# Major error?  Reversed correlation sign by not using -cov2cor(invmatrix) ????#
+# see ppcor package and pcor() function.#
+#
+magwene.inversion<-function(x,node.width=10, edge.mult=6, vertex.cols = 'black', layout=layout.circle, #
+	alpha=FALSE, suppress=FALSE, curve=FALSE, Out = FALSE){#
+	# function takes x = data frame of trait values#
+	# and node.width of graph node (default is 10)#
+	# and edge.mult for multiplier on edges to make visible etc (default is 6)#
+	# and layout - based in plot.igraph options - default is layout.circle#
+	# alternative might be layout.kamada.kawai#
+	# alpha selects between using thickness of edges or alpha color for edge emphasis#
+	# alpha = FALSE is default and changes edge thickness via edge.multiplier#
+	# suppress = FALSE - if true, don't print the correlations on each edge#
+	# Out = TRUE returns the list of matrices etc to the screen.  Otherwise, collect with assignment#
+	require(igraph)#
+	# STEP 1#
+	# generate correlation matrix among traits#
+	if(is.data.frame(x)==TRUE){#
+		dd<-scale(x,scale=TRUE,center=TRUE)#
+		cc<-cov(dd)#
+		subjects<-dim(dd)[1]#
+		}#
+	else#
+	if(is.matrix(x)&all(diag(x)!=1)){#
+		cc<-cov2cor(x)#
+		}	#
+	else#
+	if(is.matrix(x)&all(diag(x)==1)){#
+		cc<-x#
+		}#
+	dimension<-dim(cc)#
+	cat('This is your starting correlation matrix','\n')#
+	print(cc)#
+}
+magwene.inversion(Fowl)
