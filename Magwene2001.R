@@ -6,6 +6,7 @@
 
 magwene.inversion<-function(x, no.sample = NULL, 
 	layout = layout_in_circle, # or layout_nicely
+	labs=c("edge.str","cors"), # magwene edge.str OR pcors
 	node.width=10, vlb = 1, vertex.cols = 'black',
 	edge.mult=10, suppress=FALSE, 
 	curve=FALSE, Out = FALSE){
@@ -28,6 +29,7 @@ magwene.inversion<-function(x, no.sample = NULL,
 	if(require(igraph)==FALSE)
 	stop("igraph not loaded")
 	
+	labs<-match.arg(labs)
 	#--------------------------------------------
 	# STEP 1
 	# generate correlation matrix among traits
@@ -81,20 +83,22 @@ magwene.inversion<-function(x, no.sample = NULL,
 	# thus -cov2cor are the partial correlations
 	# see Magwene 2001 1738
 	#--------------------------------------------
+	
 	scaleinvcc <- -cov2cor(invcc)
 	diag(scaleinvcc)<-1
-	#print("conditional correlations")
+	#print("partial correlations")
 	#print(scaleinvcc)
 
 	#--------------------------------------------
 	# Step 4 - Edge Exclusion Deviance to test for correlations = 0
+	#--------------------------------------------
+
 	pcm<-round(scaleinvcc,3)
 	pcm[upper.tri(pcm)]<-0
 	pcm
 	ppcm<-as.numeric(pcm)
-	#print(pcm)
 
-	# generate edge exclusion deviance table
+	# generate edge exclusion deviance collectors
 	# AND CORRELATION STRENGTHS
 	eed.sig<-numeric()
 	eed.str<-numeric()
@@ -109,7 +113,7 @@ magwene.inversion<-function(x, no.sample = NULL,
 		}
 
 	#--------------------------------------------
-	eed.sig.mat<-matrix(eed.sig,dimension)
+	eed.sig.mat<-matrix(eed.sig, dimension)
 	#print("Edge Significnance Matrix")
 	#print(eed.sig.mat)
 
@@ -147,10 +151,15 @@ magwene.inversion<-function(x, no.sample = NULL,
 		
 	# GET LABELS ONTO THE EDGES, BUT ONLY WHERE THERE ARE EDGES from tests
 	# labels
-	labels<-round(scaleinvcc[eed.graph==1],2)
+	# edge.str is from Magwene.
+	if(labs=='edge.str'){
+	labels<-round(strs,3)
+	}
+	else
+	{labels<-round(scaleinvcc[eed.graph==1],2)}
 	
 	# set type to solid (1) for positives, dotted (3) for negs
-	types<-ifelse(labels>0,1,2)
+	types<-ifelse(labels>0,1,3)
 	E(g)$lty<-types
 	E(g)$width = edge.mult*round(strs,3)+0.1
 
@@ -163,7 +172,8 @@ magwene.inversion<-function(x, no.sample = NULL,
 
 
 	# get rid of edges that are vertex to vertex
-	g<-delete.edges(g, which(labels==1))
+	codes<-round(scaleinvcc[eed.graph==1],2) # use cor=1 to find them.
+	g<-delete.edges(g, which(codes==1))
 
 	# make the plot
 	plot(g, layout = layout,
@@ -175,7 +185,7 @@ magwene.inversion<-function(x, no.sample = NULL,
 		vertex.label.dist = vlb,
 		vertex.label.family = "Arial",
 		vertex.label.cex = 0.8,
-		edge.color='grey80',
+		edge.color='grey90',
 		edge.curved = curve,
 		edge.label.cex = 0.8,
 		edge.label.family ="Arial")

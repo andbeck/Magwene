@@ -37,14 +37,23 @@ ppcorMethod<-function(covmat){
 # alternative layouts see ?layout_
 # play with edge multiplier to see different edges
 # solid = positive, dashed = negative
-par(mfrow=c(1,2))
-mag_wrong<-magwene.inversion.wrong(Fowl, no.sample = 276,
+par(mfrow=c(2,2), mar = c(3,2,2,1))
+mag_wrong<-magwene.inversion.wrong(Fowl, no.sample = 276, labs='edge.str',
 	edge.mult = 30, layout = layout_with_kk,
-	Out =TRUE)
+	Out =TRUE);title("Edge Strength Wrong")
 
-mag_right<-magwene.inversion(Fowl, no.sample = 276,
+mag_right<-magwene.inversion(Fowl, no.sample = 276, labs = 'edge.str',
 	edge.mult = 30, layout = layout_with_kk,
-	Out =TRUE)
+	Out =TRUE); title("Edge Strength Correct")
+
+mag_wrong<-magwene.inversion.wrong(Fowl, no.sample = 276, labs='cors',
+	edge.mult = 30, layout = layout_with_kk,
+	Out =TRUE); title("Partial Correlation Wrong")
+
+mag_right<-magwene.inversion(Fowl, no.sample = 276, labs = 'cors',
+	edge.mult = 30, layout = layout_with_kk,
+	Out =TRUE); title("Partial Correlation Correct")
+
 
 #COMPARE OLD wrong, new and ppcor methods
 mag_wrong$PartialCorr
@@ -67,8 +76,9 @@ pcor(y.data)$estimate
 magwene.inversion(y.data, no.sample=10, Out = TRUE)$PartialCorr
 
 # stat/edge test
-pcor(y.data)$statistic
+pcor(y.data)$statistic # not sure what the test stat actually is in ppcor
 magwene.inversion(y.data, no.sample=10, Out = TRUE)$EdgeSig
+magwene.inversion(y.data, no.sample=10, Out = TRUE)$EdgeStrength
 
 # p-value
 pcor(y.data)$p.value
