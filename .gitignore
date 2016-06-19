@@ -1,0 +1,7 @@
+# OS generated files #
+######################
+.DS_Store
+
+# R generated files #
+#####################
+.Rapp.history
